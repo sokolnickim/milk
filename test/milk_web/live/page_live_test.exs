@@ -5,7 +5,15 @@ defmodule MilkWeb.PageLiveTest do
 
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "Welcome to Phoenix!"
-    assert render(page_live) =~ "Welcome to Phoenix!"
+    assert disconnected_html =~ "Which bottle?"
+    assert render(page_live) =~ "Which bottle?"
+  end
+
+  test "click on bottle", %{conn: conn} do
+    {:ok, page_live, _} = live(conn, "/")
+
+    assert page_live
+           |> element("button", "red")
+           |> render_click() =~ "You clicked on red"
   end
 end
