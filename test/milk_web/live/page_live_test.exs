@@ -14,6 +14,6 @@ defmodule MilkWeb.PageLiveTest do
 
     assert page_live
            |> element("button", "red")
-           |> render_click() =~ "You clicked on red"
+           |> render_click() =~ "Bottle filled at "
   end
 end
