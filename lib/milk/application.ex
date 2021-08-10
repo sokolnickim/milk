@@ -6,15 +6,17 @@ defmodule Milk.Application do
   use Application
 
   def start(_type, _args) do
+
+
     children = [
       # Start the Telemetry supervisor
       MilkWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Milk.PubSub},
       # Start the Endpoint (http/https)
-      MilkWeb.Endpoint
+      MilkWeb.Endpoint,
       # Start a worker by calling: Milk.Worker.start_link(arg)
-      # {Milk.Worker, arg}
+      Milk.Repo
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

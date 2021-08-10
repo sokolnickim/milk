@@ -2,7 +2,7 @@
   <h2>Which bottle?</h2>
 
   <div class="column">
-    <%= for {text, color} <- @buttons do %>
+    <%= for {text, color, _filled_at} <- @bottles do %>
       <button
         phx-click="bottle"
         phx-value-key="<%= text%>"
