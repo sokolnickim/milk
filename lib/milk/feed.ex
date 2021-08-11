@@ -1,5 +1,5 @@
 defmodule Milk.Feed do
-  @behaviour Milk.Repo
+  @behaviour Milk.MnesiaRepo
 
   defstruct at: DateTime.utc_now(), with: :breast
 

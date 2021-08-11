@@ -3,7 +3,7 @@ defmodule Milk.Bottles do
   The Bottles context.
   """
 
-  alias Milk.Repo
+  alias Milk.MnesiaRepo, as: Repo
   alias Milk.Bottle
 
   @doc """

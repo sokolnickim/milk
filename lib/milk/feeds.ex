@@ -3,7 +3,7 @@ defmodule Milk.Feeds do
   The Feeds context.
   """
 
-  alias Milk.Repo
+  alias Milk.MnesiaRepo, as: Repo
   alias Milk.Feed
 
   @doc """

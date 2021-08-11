@@ -1,5 +1,5 @@
 defmodule Milk.Bottle do
-  @behaviour Milk.Repo
+  @behaviour Milk.MnesiaRepo
 
   defstruct [:name, :color, :filled_at]
 

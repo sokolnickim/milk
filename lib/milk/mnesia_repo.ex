@@ -1,4 +1,4 @@
-defmodule Milk.Repo do
+defmodule Milk.MnesiaRepo do
   use GenServer
 
   @callback to_tuple(struct :: term) :: tuple()
