@@ -18,7 +18,7 @@
       <%= for bottle <- @bottles do %>
         <button
           phx-click="bottle"
-          phx-value-id="<%= bottle.name %>"
+          phx-value-id="<%= bottle.id %>"
           style="background-color: <%= bottle.color %>"
         >
           <%= bottle.name %>

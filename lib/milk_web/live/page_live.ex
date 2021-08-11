@@ -12,7 +12,7 @@ defmodule MilkWeb.PageLive do
 
   @impl true
   def handle_event("bottle", %{"id" => id}, socket) do
-    bottle =
+    {:ok, bottle} =
       id
       |> Bottles.get_bottle!()
       |> Bottles.fill_bottle()

@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+for color <- ~w(red green blue orange purple) do
+  Milk.Repo.insert!(%Milk.Bottles.Bottle{name: color, color: color})
+end

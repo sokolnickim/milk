@@ -3,8 +3,10 @@ defmodule Milk.Bottles do
   The Bottles context.
   """
 
-  alias Milk.MnesiaRepo, as: Repo
-  alias Milk.Bottle
+  import Ecto.Query, warn: false
+  alias Milk.Repo
+
+  alias Milk.Bottles.Bottle
 
   @doc """
   Returns the list of bottles.
@@ -49,7 +51,7 @@ defmodule Milk.Bottles do
   """
   def create_bottle(attrs \\ %{}) do
     %Bottle{}
-    |> Map.merge(attrs)
+    |> Bottle.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -67,7 +69,7 @@ defmodule Milk.Bottles do
   """
   def fill_bottle(%Bottle{} = bottle) do
     bottle
-    |> Bottle.fill()
+    |> Bottle.changeset(%{filled_at: NaiveDateTime.local_now()})
     |> Repo.update()
   end
 
@@ -85,5 +87,18 @@ defmodule Milk.Bottles do
   """
   def delete_bottle(%Bottle{} = bottle) do
     Repo.delete(bottle)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking bottle changes.
+
+  ## Examples
+
+      iex> change_bottle(bottle)
+      %Ecto.Changeset{data: %Bottle{}}
+
+  """
+  def change_bottle(%Bottle{} = bottle, attrs \\ %{}) do
+    Bottle.changeset(bottle, attrs)
   end
 end

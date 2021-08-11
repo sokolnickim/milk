@@ -38,6 +38,11 @@ defmodule MilkWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(Milk.Repo, {:shared, self()})
     end
 
+    # Temporary seeds
+    for color <- ~w(red green blue orange purple) do
+      Milk.Repo.insert!(%Milk.Bottles.Bottle{name: color, color: color})
+    end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

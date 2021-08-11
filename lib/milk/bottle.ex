@@ -23,6 +23,6 @@ defmodule Milk.Bottle do
   end
 
   def fill(%__MODULE__{} = bottle) do
-    %__MODULE__{bottle | filled_at: DateTime.utc_now()}
+    %__MODULE__{bottle | filled_at: NaiveDateTime.local_now()}
   end
 end
