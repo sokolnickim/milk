@@ -19,8 +19,20 @@ defmodule Milk.Repo do
     GenServer.call(__MODULE__, {:get, table, id})
   end
 
-  def update(table, struct) do
-    GenServer.call(__MODULE__, {:update, table, struct})
+  def get!(table, id) do
+    get(table, id) || raise ArgumentError, "id does not exist"
+  end
+
+  def insert(struct) do
+    update(struct)
+  end
+
+  def update(struct) do
+    GenServer.call(__MODULE__, {:update, struct})
+  end
+
+  def delete(struct) do
+    GenServer.call(__MODULE__, {:delete, struct})
   end
 
   @impl true
@@ -63,11 +75,12 @@ defmodule Milk.Repo do
     {:reply, struct, tables}
   end
 
-  def handle_call({:update, table, struct}, _from, tables) do
+  def handle_call({:update, struct}, _from, tables) do
+    table = struct.__struct__
     validate_table(tables, table)
 
-    return = :ets.insert(table, table.to_tuple(struct))
-    {:reply, return, tables}
+    :ets.insert(table, table.to_tuple(struct))
+    {:reply, struct, tables}
   end
 
   defp validate_table(tables, table) do
