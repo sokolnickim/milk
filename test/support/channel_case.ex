@@ -28,7 +28,13 @@ defmodule MilkWeb.ChannelCase do
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Milk.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(Milk.Repo, {:shared, self()})
+    end
+
     :ok
   end
 end

@@ -4,6 +4,8 @@
 # remember to add this file to your .gitignore.
 use Mix.Config
 
+config :milk, Milk.Repo, database: System.get_env("DATABASE_PATH") || "milk.db"
+
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
     raise """

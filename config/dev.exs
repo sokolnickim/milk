@@ -1,5 +1,8 @@
 use Mix.Config
 
+# Configure your database
+config :milk, Milk.Repo, database: "milk_db.dev"
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

@@ -7,6 +7,9 @@
 # General application configuration
 use Mix.Config
 
+config :milk,
+  ecto_repos: [Milk.Repo]
+
 # Configures the endpoint
 config :milk, MilkWeb.Endpoint,
   url: [host: "localhost"],
