@@ -1,15 +1,29 @@
 <section class="container">
-  <h2>Which bottle?</h2>
+  <div class="row">
+    <h2>Last feed</h2>
+    <h3>
+      <%= if @last_feed do %>
+        <%= Milk.Feed.minutes_ago(@last_feed) %> minutes ago
+      <% else %>
+        None logged
+      <% end %>
+    </h3>
+    <button phx-click="log">Log feed</button>
+  </div>
 
-  <div class="column">
-    <%= for bottle <- @bottles do %>
-      <button
-        phx-click="bottle"
-        phx-value-key="<%= bottle.name %>"
-        style="background-color: <%= bottle.color %>"
-      >
-        <%= bottle.name %>
-      </button>
-    <% end %>
+  <div class="row">
+    <h2>Fill bottle</h2>
+
+    <div class="column">
+      <%= for bottle <- @bottles do %>
+        <button
+          phx-click="bottle"
+          phx-value-key="<%= bottle.name %>"
+          style="background-color: <%= bottle.color %>"
+        >
+          <%= bottle.name %>
+        </button>
+      <% end %>
+    </div>
   </div>
 </section>

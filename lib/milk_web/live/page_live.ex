@@ -4,7 +4,8 @@ defmodule MilkWeb.PageLive do
   @impl true
   def mount(_params, _session, socket) do
     bottles = Milk.Repo.all(Milk.Bottle)
-    {:ok, assign(socket, bottles: bottles)}
+    last_feed = Milk.Repo.get(Milk.Feed, Milk.Feed)
+    {:ok, assign(socket, bottles: bottles, last_feed: last_feed)}
   end
 
   @impl true
@@ -17,5 +18,12 @@ defmodule MilkWeb.PageLive do
     Milk.Repo.update(Milk.Bottle, bottle)
     socket = put_flash(socket, :info, "Bottle filled at #{bottle.filled_at}")
     {:noreply, socket}
+  end
+
+  def handle_event("log", %{}, socket) do
+    new_feed = %Milk.Feed{}
+    Milk.Repo.update(Milk.Feed, new_feed)
+
+    {:noreply, assign(socket, last_feed: new_feed)}
   end
 end

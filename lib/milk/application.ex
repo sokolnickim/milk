@@ -16,7 +16,7 @@ defmodule Milk.Application do
       # Start the Endpoint (http/https)
       MilkWeb.Endpoint,
       # Start a worker by calling: Milk.Worker.start_link(arg)
-      {Milk.Repo, [Milk.Bottle]}
+      {Milk.Repo, [Milk.Bottle, Milk.Feed]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
