@@ -18,7 +18,7 @@ defmodule Milk.Feeds do
 
   """
   def list_feeds do
-    Repo.all(Feed)
+    Repo.all(from f in Feed, order_by: [desc: f.started_at])
   end
 
   @doc """
@@ -32,10 +32,9 @@ defmodule Milk.Feeds do
   """
   def last_feed() do
     query =
-      from(f in Feed,
+      from f in Feed,
         order_by: [desc: f.started_at],
         limit: 1
-      )
 
     Repo.one(query)
   end

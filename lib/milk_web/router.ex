@@ -21,6 +21,8 @@ defmodule MilkWeb.Router do
 
     live "/bottles", BottleLive.Index, :index
     live "/bottles/new", BottleLive.Index, :new
+
+    live "/feeds", FeedLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

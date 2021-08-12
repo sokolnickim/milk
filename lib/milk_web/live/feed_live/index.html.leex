@@ -1,0 +1,18 @@
+<h1>Feeds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Started at</th>
+    </tr>
+  </thead>
+  <tbody id="feeds">
+    <%= for feed <- @feeds do %>
+      <tr id="feed-<%= feed.id %>">
+        <td><%= feed.started_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Feed", to: "#", phx_click: "new" %></span>
