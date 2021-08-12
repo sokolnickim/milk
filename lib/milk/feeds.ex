@@ -3,8 +3,10 @@ defmodule Milk.Feeds do
   The Feeds context.
   """
 
-  alias Milk.MnesiaRepo, as: Repo
-  alias Milk.Feed
+  import Ecto.Query, warn: false
+  alias Milk.Repo
+
+  alias Milk.Feeds.Feed
 
   @doc """
   Returns the list of feeds.
@@ -29,7 +31,13 @@ defmodule Milk.Feeds do
 
   """
   def last_feed() do
-    Repo.get(Feed, Feed)
+    query =
+      from(f in Feed,
+        order_by: [desc: f.started_at],
+        limit: 1
+      )
+
+    Repo.one(query)
   end
 
   @doc """
@@ -45,8 +53,10 @@ defmodule Milk.Feeds do
 
   """
   def create_feed(attrs \\ %{}) do
+    attrs = Map.merge(%{started_at: NaiveDateTime.local_now()}, attrs)
+
     %Feed{}
-    |> Map.merge(attrs)
+    |> Feed.changeset(attrs)
     |> Repo.insert()
   end
 end

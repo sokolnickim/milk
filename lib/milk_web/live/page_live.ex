@@ -22,7 +22,7 @@ defmodule MilkWeb.PageLive do
   end
 
   def handle_event("log", %{}, socket) do
-    new_feed = Feeds.create_feed()
+    {:ok, new_feed} = Feeds.create_feed()
 
     {:noreply, assign(socket, last_feed: new_feed)}
   end

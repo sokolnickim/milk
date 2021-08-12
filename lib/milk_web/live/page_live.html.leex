@@ -3,7 +3,7 @@
     <h2>Last feed</h2>
     <h3>
       <%= if @last_feed do %>
-        <%= Milk.Feed.minutes_ago(@last_feed) %> minutes ago
+        <%= Milk.Feeds.Feed.minutes_ago(@last_feed) %> minutes ago
       <% else %>
         None logged
       <% end %>
