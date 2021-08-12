@@ -1,0 +1,36 @@
+<h1>Listing Bottles</h1>
+
+<%= if @live_action in [:new] do %>
+  <%= live_modal MilkWeb.BottleLive.FormComponent,
+    id: @bottle.id || :new,
+    title: @page_title,
+    action: @live_action,
+    bottle: @bottle,
+    return_to: Routes.bottle_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Last filled at</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="bottles">
+    <%= for bottle <- @bottles do %>
+      <tr id="bottle-<%= bottle.id %>">
+        <td style="color: <%= bottle.color %>"><%= bottle.name %></td>
+        <td class="filled_at"><%= bottle.filled_at %></td>
+
+        <td>
+          <span><%= link "Fill", to: "#", phx_click: "fill", phx_value_id: bottle.id %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: bottle.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Bottle", to: Routes.bottle_index_path(@socket, :new) %></span>

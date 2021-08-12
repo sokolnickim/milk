@@ -18,6 +18,9 @@ defmodule MilkWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+
+    live "/bottles", BottleLive.Index, :index
+    live "/bottles/new", BottleLive.Index, :new
   end
 
   # Other scopes may use custom stacks.
