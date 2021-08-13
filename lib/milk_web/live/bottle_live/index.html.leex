@@ -22,7 +22,7 @@
     <%= for bottle <- @bottles do %>
       <tr id="bottle-<%= bottle.id %>">
         <td style="color: <%= bottle.color %>"><%= bottle.name %></td>
-        <td class="filled_at"><%= bottle.filled_at %></td>
+        <td class="filled_at"><%= bottle.filled_at |> relative_datetime %></td>
 
         <td>
           <span><%= link "Fill", to: "#", phx_click: "fill", phx_value_id: bottle.id %></span>

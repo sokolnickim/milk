@@ -25,6 +25,6 @@ defmodule MilkWeb.PageLiveTest do
 
     assert page_live
            |> element("button", "Log feed")
-           |> render_click() =~ "minutes ago"
+           |> render_click() =~ "Today at"
   end
 end

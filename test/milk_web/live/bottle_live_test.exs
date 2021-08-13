@@ -54,12 +54,7 @@ defmodule MilkWeb.BottleLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.bottle_index_path(conn, :index))
 
       assert index_live |> element("#bottle-#{bottle.id} a", "Fill") |> render_click()
-      ts = index_live |> element("#bottle-#{bottle.id} td.filled_at") |> render()
-
-      assert ts =~
-               NaiveDateTime.local_now()
-               |> NaiveDateTime.truncate(:second)
-               |> NaiveDateTime.to_string()
+      assert index_live |> element("#bottle-#{bottle.id} td.filled_at") |> render() =~ "Today at"
     end
 
     test "deletes bottle in listing", %{conn: conn, bottle: bottle} do

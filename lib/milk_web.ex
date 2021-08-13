@@ -82,6 +82,7 @@ defmodule MilkWeb do
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
       import Phoenix.LiveView.Helpers
       import MilkWeb.LiveHelpers
+      import MilkWeb.ViewHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View

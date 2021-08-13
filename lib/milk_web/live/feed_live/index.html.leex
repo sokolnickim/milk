@@ -9,7 +9,7 @@
   <tbody id="feeds">
     <%= for feed <- @feeds do %>
       <tr id="feed-<%= feed.id %>">
-        <td><%= feed.started_at %></td>
+        <td><%= feed.started_at |> relative_datetime %></td>
       </tr>
     <% end %>
   </tbody>

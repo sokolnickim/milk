@@ -12,8 +12,4 @@ defmodule Milk.Feeds.Feed do
     |> cast(attrs, [:started_at])
     |> validate_required([:started_at])
   end
-
-  def minutes_ago(%__MODULE__{started_at: timestamp}) do
-    ceil(NaiveDateTime.diff(NaiveDateTime.local_now(), timestamp, :second) / 60)
-  end
 end

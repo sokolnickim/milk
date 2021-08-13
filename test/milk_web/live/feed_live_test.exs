@@ -24,13 +24,7 @@ defmodule MilkWeb.FeedLiveTest do
     test "create new feed", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.feed_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Feed") |> render_click() =~
-               "New Feed"
-
-      assert render(index_live) =~
-               NaiveDateTime.local_now()
-               |> NaiveDateTime.truncate(:second)
-               |> NaiveDateTime.to_string()
+      assert index_live |> element("a", "New Feed") |> render_click() =~ "Today at"
     end
   end
 end
