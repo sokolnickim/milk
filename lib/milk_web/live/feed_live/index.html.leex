@@ -1,9 +1,11 @@
-<h1>Feeds</h1>
+<div class="row">
+  <button phx-click="new">Log new feed</button>
+</div>
 
 <table>
   <thead>
     <tr>
-      <th>Started at</th>
+      <th>Past 24 hours</th>
     </tr>
   </thead>
   <tbody id="feeds">
@@ -14,5 +16,3 @@
     <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Feed", to: "#", phx_click: "new" %></span>

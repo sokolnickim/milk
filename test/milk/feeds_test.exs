@@ -18,6 +18,14 @@ defmodule Milk.FeedsTest do
       assert Feeds.list_feeds() == [feed3, feed2, feed1]
     end
 
+    test "last_feeds_since/1 returns all feeds since a given date" do
+      [_feed1, feed2, feed3] = feed_fixtures()
+      moment = feed2.started_at
+      assert Feeds.list_feeds_since(moment) == [feed3, feed2]
+      assert Feeds.list_feeds_since(NaiveDateTime.add(moment, -1)) == [feed3, feed2]
+      assert Feeds.list_feeds_since(NaiveDateTime.add(moment, 1)) == [feed3]
+    end
+
     test "last_feed/0 returns the last feed" do
       [_feed1, _feed2, feed3] = feed_fixtures()
       assert Feeds.last_feed() == feed3

@@ -24,7 +24,7 @@ defmodule MilkWeb.FeedLiveTest do
     test "create new feed", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.feed_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Feed") |> render_click() =~ "Today at"
+      assert index_live |> element("button", "Log") |> render_click() =~ "Today at"
     end
   end
 end

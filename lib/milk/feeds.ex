@@ -22,6 +22,24 @@ defmodule Milk.Feeds do
   end
 
   @doc """
+  Returns the list of feeds since a given date and time
+
+  ## Examples
+
+      iex> list_feeds_since(%NaiveDateTime{})
+      [%Feed{}, ...]
+
+  """
+  def list_feeds_since(moment) do
+    query =
+      from f in Feed,
+        order_by: [desc: f.started_at],
+        where: f.started_at >= ^moment
+
+    Repo.all(query)
+  end
+
+  @doc """
   Gets the last feed, or nil if no feed exists
 
   ## Examples

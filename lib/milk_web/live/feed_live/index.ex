@@ -26,6 +26,7 @@ defmodule MilkWeb.FeedLive.Index do
   end
 
   defp list_feeds do
-    Feeds.list_feeds()
+    yesterday = NaiveDateTime.local_now() |> NaiveDateTime.add(-24 * 3600)
+    Feeds.list_feeds_since(yesterday)
   end
 end
