@@ -25,7 +25,7 @@ config :milk, MilkWeb.Endpoint,
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start each relevant endpoint:
 #
-#     config :milk, MilkWeb.Endpoint, server: true
+config :milk, MilkWeb.Endpoint, server: true
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
