@@ -4,23 +4,25 @@ defmodule MilkWeb.ViewHelpersTest do
   import MilkWeb.ViewHelpers
 
   test "formats relative datetime formatting" do
-    today =
+    {:ok, time} = Time.new(14, 38, 43)
+
+    {:ok, today} =
       NaiveDateTime.local_now()
       |> NaiveDateTime.to_date()
-      |> NaiveDateTime.new!(Time.new!(14, 38, 43))
+      |> NaiveDateTime.new(time)
 
-    assert relative_datetime(today) == "Today at 2:38pm"
+    assert relative_datetime(today) |> to_string() == "Today at 2:38 PM"
 
     yesterday = NaiveDateTime.add(today, -24 * 3600)
-    assert relative_datetime(yesterday) == "Yesterday at 2:38pm"
+    assert relative_datetime(yesterday) |> to_string() == "Yesterday at 2:38 PM"
 
     tomorrow = NaiveDateTime.add(today, 24 * 3600)
-    assert relative_datetime(tomorrow) == "Tomorrow at 2:38pm"
+    assert relative_datetime(tomorrow) |> to_string() == "Tomorrow at 2:38 PM"
 
-    the_day_before_yesterday = NaiveDateTime.add(today, -48 * 3600)
-    assert relative_datetime(the_day_before_yesterday) == "2 days ago at 2:38pm"
+    two_days_ago = NaiveDateTime.add(today, -48 * 3600)
+    assert relative_datetime(two_days_ago) |> to_string() == "2 days ago at 2:38 PM"
 
-    the_day_after_tomorrow = NaiveDateTime.add(today, 48 * 3600)
-    assert relative_datetime(the_day_after_tomorrow) == "In 2 days at 2:38pm"
+    in_two_days = NaiveDateTime.add(today, 48 * 3600)
+    assert relative_datetime(in_two_days) |> to_string() == "In 2 days at 2:38 PM"
   end
 end
