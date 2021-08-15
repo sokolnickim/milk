@@ -17,7 +17,8 @@ defmodule MilkWeb.LiveHelpers do
   """
   def live_modal(component, opts) do
     path = Keyword.fetch!(opts, :return_to)
-    modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
+    title = Keyword.fetch!(opts, :title)
+    modal_opts = [id: :modal, title: title, return_to: path, component: component, opts: opts]
     live_component(MilkWeb.ModalComponent, modal_opts)
   end
 end

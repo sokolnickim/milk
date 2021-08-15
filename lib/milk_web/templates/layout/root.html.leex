@@ -11,9 +11,18 @@
   </head>
   <body>
     <header>
-      <section class="container">
-        <h1>Milk</h1>
-      </section>
+      <nav class="py-3 fs-5 fw-bolder" role="navigation">
+        <ul class="nav nav-tabs justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link <%= if @conn.path_info == ["feeds"], do: "active" %>"
+              href="<%= Routes.feed_index_path(@conn, :index) %>">Feeds</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= if @conn.path_info == ["bottles"], do: "active" %>"
+              href="<%= Routes.bottle_index_path(@conn, :index) %>">Bottles</a>
+          </li>
+        <ul>
+      </nav>
     </header>
     <%= @inner_content %>
   </body>

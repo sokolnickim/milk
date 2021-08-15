@@ -11,9 +11,16 @@ defmodule MilkWeb.ModalComponent do
       phx-target="#<%= @id %>"
       phx-page-loading>
 
-      <div class="phx-modal-content">
-        <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close" %>
-        <%= live_component @socket, @component, @opts %>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><%= @title %></h5>
+            <%= live_patch "", to: @return_to, class: "btn-close" %>
+          </div>
+          <div class="modal-body">
+            <%= live_component @socket, @component, @opts %>
+          </div>
+        </div>
       </div>
     </div>
     """

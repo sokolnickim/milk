@@ -1,16 +1,16 @@
-<div class="row">
-  <button phx-click="new">Log new feed</button>
+<div class="row px-3">
+  <button class="btn btn-primary" phx-click="new">Log new feed</button>
 </div>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Past 24 hours</th>
     </tr>
   </thead>
   <tbody id="feeds">
-    <%= for feed <- @feeds do %>
-      <tr id="feed-<%= feed.id %>">
+    <%= for {feed, index} <- Enum.with_index(@feeds) do %>
+      <tr id="feed-<%= feed.id %>" class="<%= if index == 0, do: "table-dark" %>">
         <td><%= feed.started_at |> relative_datetime %></td>
       </tr>
     <% end %>
