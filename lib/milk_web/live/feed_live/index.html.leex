@@ -1,4 +1,6 @@
-<div class="row px-3">
+<%= live_component MilkWeb.FeedLive.TimeComponent, last_feed: @last_feed %>
+
+<div class="row m-0">
   <button class="btn btn-primary" phx-click="new">Log new feed</button>
 </div>
 
@@ -10,8 +12,8 @@
   </thead>
   <tbody id="feeds">
     <%= for {feed, index} <- Enum.with_index(@feeds) do %>
-      <tr id="feed-<%= feed.id %>" class="<%= if index == 0, do: "table-dark" %>">
-        <td><%= feed.started_at |> relative_datetime %></td>
+      <tr class="<%= if index == 0, do: "table-dark" %>">
+        <td><%= feed.started_at |> relative_datetime() %></td>
       </tr>
     <% end %>
   </tbody>

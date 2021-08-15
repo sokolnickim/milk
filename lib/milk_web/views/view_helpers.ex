@@ -22,7 +22,7 @@ defmodule MilkWeb.ViewHelpers do
     end
   end
 
-  defp print_12h_time(%Time{} = time) do
+  def print_12h_time(time) do
     {hours, minutes, _} = Time.to_erl(time)
 
     printed_hours = "#{Integer.mod(hours - 1, 12) + 1}"
