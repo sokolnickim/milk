@@ -15,16 +15,20 @@ defmodule MilkWeb.FeedLiveTest do
   describe "Index" do
     setup [:create_feeds]
 
-    test "lists all feeds in the right order", %{conn: conn} do
+    test "lists all feeds", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.feed_index_path(conn, :index))
 
       assert html =~ "Feeds"
     end
 
-    test "create new feed", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.feed_index_path(conn, :index))
+    test "log last feed", %{conn: conn} do
+      {:ok, index_live, html} = live(conn, Routes.feed_index_path(conn, :index))
 
-      assert index_live |> element("button", "Log") |> render_click() =~ "Today at"
+      assert html =~ "Past 24 hours"
+
+      assert index_live
+             |> element("button", "Log new feed")
+             |> render_click() =~ "Today at"
     end
   end
 end
