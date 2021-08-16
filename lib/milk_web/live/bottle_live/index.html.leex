@@ -1,17 +1,14 @@
-<%= if @live_action in [:new] do %>
-  <%= live_modal MilkWeb.BottleLive.FormComponent,
-    id: @bottle.id || :new,
-    title: @page_title,
-    action: @live_action,
-    bottle: @bottle,
-    return_to: Routes.bottle_index_path(@socket, :index) %>
+<%= if @live_action == :edit do %>
+  <%= live_patch "Close", class: "float-end", to: Routes.bottle_index_path(@socket, :index) %>
+<% else %>
+  <%= live_patch "Edit", class: "float-end", to: Routes.bottle_index_path(@socket, :edit) %>
 <% end %>
 
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Last filled at</th>
+      <th>Last filling</th>
 
       <th></th>
     </tr>
@@ -20,15 +17,40 @@
     <%= for bottle <- @bottles do %>
       <tr id="bottle-<%= bottle.id %>">
         <td style="color: <%= bottle.color %>"><%= bottle.name %></td>
-        <td class="filled_at"><%= bottle.filled_at |> relative_datetime %></td>
+        <td class="filled_at">
+          <%= bottle.filled_at |> relative_datetime %>
+        </td>
 
         <td>
-          <span><%= link "Fill", to: "#", phx_click: "fill", phx_value_id: bottle.id %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: bottle.id, data: [confirm: "Are you sure?"] %></span>
+          <%= if @live_action == :edit do %>
+            <%= link "Delete", to: "#", phx_click: "delete",
+                phx_value_id: bottle.id, data: [confirm: "Are you sure?"] %>
+          <% else %>
+            <%= if bottle.filled_at do %>
+              <%= link "Empty", to: "#", phx_click: "empty", phx_value_id: bottle.id %>
+            <% else %>
+              <%= link "Fill", to: "#", phx_click: "fill", phx_value_id: bottle.id %>
+            <% end %>
+          <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Bottle", to: Routes.bottle_index_path(@socket, :new) %></span>
+<%= if @live_action == :edit do %>
+  <%= f = form_for @changeset, "#",
+    class: "row row-center float-end",
+    id: "bottle-form",
+    phx_change: "validate",
+    phx_submit: "add" %>
+
+    <div class="input-group mb-3">
+      <%= color_input f, :color, class: "form-control-color input-group-text" %>
+      <%= text_input f, :name, class: "form-control #{if f.errors[:name], do: "is-invalid"}" %>
+
+      <%= submit "Add bottle", phx_disable_with: "Adding...", class: "btn btn-primary" %>
+      <%= error_tag f, :name %>
+    </div>
+  </form>
+<% end %>

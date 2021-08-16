@@ -18,7 +18,12 @@ defmodule Milk.Bottles do
 
   """
   def list_bottles do
-    Repo.all(Bottle)
+    Repo.all(
+      from b in Bottle,
+        # TODO: if support is added:
+        # order_by: [asc_nulls_last: b.filled_at]
+        order_by: b.filled_at
+    )
   end
 
   @doc """
@@ -70,6 +75,24 @@ defmodule Milk.Bottles do
   def fill_bottle(%Bottle{} = bottle) do
     bottle
     |> Bottle.changeset(%{filled_at: NaiveDateTime.local_now()})
+    |> Repo.update()
+  end
+
+  @doc """
+  Fills a bottle.
+
+  ## Examples
+
+      iex> empty_bottle(bottle)
+      {:ok, %Bottle{}}
+
+      iex> empty_bottle(bottle)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def empty_bottle(%Bottle{} = bottle) do
+    bottle
+    |> Bottle.changeset(%{filled_at: nil})
     |> Repo.update()
   end
 

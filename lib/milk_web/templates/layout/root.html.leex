@@ -14,11 +14,11 @@
       <nav class="py-3 fs-5 fw-bolder" role="navigation">
         <ul class="nav nav-tabs justify-content-center">
           <li class="nav-item">
-            <a class="nav-link <%= if @conn.path_info == ["feeds"], do: "active" %>"
+            <a class="nav-link <%= if hd(@conn.path_info) == "feeds", do: "active" %>"
               href="<%= Routes.feed_index_path(@conn, :index) %>">Feeds</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <%= if @conn.path_info == ["bottles"], do: "active" %>"
+            <a class="nav-link <%= if hd(@conn.path_info) == "bottles", do: "active" %>"
               href="<%= Routes.bottle_index_path(@conn, :index) %>">Bottles</a>
           </li>
         <ul>

@@ -20,7 +20,7 @@ defmodule MilkWeb.Router do
     live "/", PageLive, :index
 
     live "/bottles", BottleLive.Index, :index
-    live "/bottles/new", BottleLive.Index, :new
+    live "/bottles/edit", BottleLive.Index, :edit
 
     live "/feeds", FeedLive.Index, :index
   end
