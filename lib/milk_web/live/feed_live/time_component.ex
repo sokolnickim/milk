@@ -8,17 +8,17 @@ defmodule MilkWeb.FeedLive.TimeComponent do
 
   @impl true
   def update(%{last_feed: last_feed}, socket) do
-    current_time = NaiveDateTime.local_now()
-    change_time = NaiveDateTime.add(last_feed.started_at, 15 * 60)
-    end_time = NaiveDateTime.add(last_feed.started_at, 30 * 60)
-
     socket =
-      assign(socket,
-        current_time: current_time,
-        change_time: change_time,
-        end_time: end_time
-      )
+      if is_nil(last_feed) do
+        assign(socket, :end_time, nil)
+      else
+        assign(socket,
+          change_time: NaiveDateTime.add(last_feed.started_at, 15 * 60),
+          end_time: NaiveDateTime.add(last_feed.started_at, 30 * 60)
+        )
+      end
 
+    socket = assign(socket, :current_time, NaiveDateTime.local_now())
     {:ok, socket}
   end
 
@@ -30,7 +30,7 @@ defmodule MilkWeb.FeedLive.TimeComponent do
         <span>Current time is</span>
         <span class="fw-bold"><%= print_12h_time(@current_time) %></span>
       </li>
-      <%= if NaiveDateTime.diff(@current_time, @end_time) < 3600 do %>
+      <%= if @end_time && NaiveDateTime.diff(@current_time, @end_time) < 3600 do %>
       <li class="list-group-item">
         <span>Change side at</span>
         <span class="fw-bold"><%= print_12h_time(@change_time) %></span>
