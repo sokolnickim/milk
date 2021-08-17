@@ -15,7 +15,7 @@
   </thead>
   <tbody id="bottles">
     <%= for bottle <- @bottles do %>
-      <tr id="bottle-<%= bottle.id %>">
+      <tr id="bottle-<%= bottle.id %>" class="<%= classes_for_bottle(bottle) %>">
         <td style="color: <%= bottle.color %>"><%= bottle.name %></td>
         <td class="filled_at">
           <%= bottle.filled_at |> relative_datetime() %>

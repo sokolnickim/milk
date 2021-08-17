@@ -8,6 +8,15 @@ defmodule Milk.Bottles do
 
   alias Milk.Bottles.Bottle
 
+  def is_empty(%Bottle{filled_at: time}), do: is_nil(time)
+
+  def is_expired(%Bottle{filled_at: time}), do: time < milk_time_limit()
+
+  defp milk_time_limit() do
+    NaiveDateTime.local_now()
+    |> NaiveDateTime.add(-3 * 24 * 3600)
+  end
+
   @doc """
   Returns the list of bottles.
 

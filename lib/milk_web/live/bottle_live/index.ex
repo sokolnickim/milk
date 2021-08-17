@@ -74,4 +74,12 @@ defmodule MilkWeb.BottleLive.Index do
   defp list_bottles do
     Bottles.list_bottles()
   end
+
+  defp classes_for_bottle(bottle) do
+    cond do
+      Bottles.is_empty(bottle) -> ""
+      Bottles.is_expired(bottle) -> "text-danger"
+      true -> "text-success"
+    end
+  end
 end
