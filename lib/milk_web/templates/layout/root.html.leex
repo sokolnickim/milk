@@ -11,7 +11,7 @@
   </head>
   <body>
     <header>
-      <nav class="py-3 fs-5 fw-bolder" role="navigation">
+      <nav class="py-3 fs-6 fw-bolder" role="navigation">
         <ul class="nav nav-tabs justify-content-center">
           <li class="nav-item">
             <a class="nav-link <%= if hd(@conn.path_info) == "feeds", do: "active" %>"
@@ -20,6 +20,10 @@
           <li class="nav-item">
             <a class="nav-link <%= if hd(@conn.path_info) == "bottles", do: "active" %>"
               href="<%= Routes.bottle_index_path(@conn, :index) %>">Bottles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= if hd(@conn.path_info) == "diapers", do: "active" %>"
+              href="<%= Routes.diaper_index_path(@conn, :index) %>">Diapers</a>
           </li>
         <ul>
       </nav>

@@ -1,0 +1,32 @@
+<%= f = form_for @changeset, "#",
+  id: "diaper-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="mb-3">
+    <%= label f, :disposed_at, class: "form-label" %>
+    <%= datetime_local_input f, :disposed_at, class: "form-control" %>
+    <%= error_tag f, :disposed_at %>
+  </div>
+
+  <div class="form-check">
+    <%= checkbox f, :liquid, class: "form-check-input" %>
+    <%= label f, :liquid, class: "form-label" %>
+    <%= error_tag f, :liquid %>
+  </div>
+
+  <div class="form-check">
+    <%= checkbox f, :solid, class: "form-check-input" %>
+    <%= label f, :solid, class: "form-label" %>
+    <%= error_tag f, :solid %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :comment, class: "form-label" %>
+    <%= textarea f, :comment, class: "form-control" %>
+    <%= error_tag f, :comment %>
+  </div>
+
+  <%= submit "Save", class: "btn btn-primary", phx_disable_with: "Saving..." %>
+</form>

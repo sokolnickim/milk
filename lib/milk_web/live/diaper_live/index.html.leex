@@ -1,0 +1,31 @@
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal MilkWeb.DiaperLive.FormComponent,
+    id: @diaper.id || :new,
+    title: @page_title,
+    action: @live_action,
+    diaper: @diaper,
+    return_to: Routes.diaper_index_path(@socket, :index) %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>At</th>
+      <th>Matter</th>
+    </tr>
+  </thead>
+  <tbody id="diapers">
+    <%= for diaper <- @diapers do %>
+      <tr id="diaper-<%= diaper.id %>">
+        <td><%= diaper.disposed_at |> relative_datetime() %></td>
+        <td>
+          <%= if diaper.liquid, do: "💧" %>
+          <%= if diaper.solid, do: "💩" %>
+          <%= if diaper.comment, do: "📝" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Diaper", to: Routes.diaper_index_path(@socket, :new) %></span>
