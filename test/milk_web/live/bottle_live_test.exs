@@ -51,12 +51,7 @@ defmodule MilkWeb.BottleLiveTest do
       assert index_live |> element("#bottle-#{bottle.id} td.filled_at") |> render() =~ "Today at"
 
       assert index_live |> element("#bottle-#{bottle.id} a", "Empty") |> render_click()
-
-      assert index_live
-             |> element("#bottle-#{bottle.id} td.filled_at")
-             |> render()
-             |> Floki.parse_fragment!()
-             |> Floki.text() == ""
+      assert index_live |> element("#bottle-#{bottle.id} td.filled_at") |> render() =~ "—"
     end
 
     test "deletes bottle in listing", %{conn: conn, bottle: bottle} do

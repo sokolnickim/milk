@@ -18,7 +18,7 @@
       <tr id="bottle-<%= bottle.id %>">
         <td style="color: <%= bottle.color %>"><%= bottle.name %></td>
         <td class="filled_at">
-          <%= bottle.filled_at |> relative_datetime %>
+          <%= bottle.filled_at |> relative_datetime() %>
         </td>
 
         <td>

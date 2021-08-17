@@ -18,12 +18,7 @@ defmodule Milk.Bottles do
 
   """
   def list_bottles do
-    Repo.all(
-      from b in Bottle,
-        # TODO: if support is added:
-        # order_by: [asc_nulls_last: b.filled_at]
-        order_by: b.filled_at
-    )
+    Repo.all(from b in Bottle, order_by: [asc_nulls_last: b.filled_at])
   end
 
   @doc """

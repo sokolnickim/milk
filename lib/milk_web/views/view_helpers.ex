@@ -1,11 +1,11 @@
 defmodule MilkWeb.ViewHelpers do
+  def relative_datetime(nil), do: {:safe, "&mdash;"}
+
   def relative_datetime(%NaiveDateTime{} = ndt) do
     relative_day = print_relative_day(NaiveDateTime.to_date(ndt))
     time = print_12h_time(NaiveDateTime.to_time(ndt))
     [relative_day, " at ", time]
   end
-
-  def relative_datetime(other), do: other
 
   defp print_relative_day(%Date{} = date) do
     days_ago =
