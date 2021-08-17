@@ -7,25 +7,48 @@
     return_to: Routes.diaper_index_path(@socket, :index) %>
 <% end %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>At</th>
-      <th>Matter</th>
-    </tr>
-  </thead>
-  <tbody id="diapers">
-    <%= for diaper <- @diapers do %>
-      <tr id="diaper-<%= diaper.id %>">
-        <td><%= diaper.disposed_at |> relative_datetime() %></td>
-        <td>
-          <%= if diaper.liquid, do: "💧" %>
-          <%= if diaper.solid, do: "💩" %>
-          <%= if diaper.comment, do: "📝" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<span><%= live_patch "New Diaper", to: Routes.diaper_index_path(@socket, :new) %></span>
+<div class="row mx-0 mb-3">
+  <%= live_patch "Log new diaper...", to: Routes.diaper_index_path(@socket, :new),
+      class: "btn btn-primary" %>
+</div>
+
+<div class="accordion accordion-flush" id="diapers">
+  <%= for diaper <- @diapers do %>
+    <div class="accordion-item">
+      <%= if diaper.comment do %>
+        <h2 class="accordion-header" id="heading-<%= diaper.id %>">
+          <button type="button"
+              class="accordion-button <%= unless @opened_id == diaper.id, do: "collapsed" %>"
+              phx-click="open" phx-value-id="<%= diaper.id %>"
+              aria-expanded="<%= @opened_id == diaper.id %>"
+              aria-controls="collapse-<%= diaper.id %>">
+            <span class="flex-fill">
+              <%= diaper.disposed_at |> relative_datetime() %>
+            </span>
+            <span>
+              <%= if diaper.liquid, do: "💧" %>
+              <%= if diaper.solid, do: "💩" %>
+            </span>
+          </button>
+        </h2>
+        <div id="collapse-<%= diaper.id %>" aria-labelledby="heading-<%= diaper.id %>"
+            class="accordion-collapse <%= unless @opened_id == diaper.id, do: "collapse" %>">
+          <div class="accordion-body ms-4">
+            <%= diaper.comment %>
+          </div>
+        </div>
+      <% else %>
+        <div class="accordion-body d-flex">
+          <span class="flex-fill">
+            <%= diaper.disposed_at |> relative_datetime() %>
+          </span>
+          <span>
+            <%= if diaper.liquid, do: "💧" %>
+            <%= if diaper.solid, do: "💩" %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

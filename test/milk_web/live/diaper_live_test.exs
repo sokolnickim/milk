@@ -29,14 +29,14 @@ defmodule MilkWeb.DiaperLiveTest do
     test "lists all diapers", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.diaper_index_path(conn, :index))
 
-      assert html =~ "💧💩📝 "
+      assert html =~ "💧💩"
+      assert html =~ "some comment"
     end
 
     test "saves new diaper", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.diaper_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Diaper") |> render_click() =~
-               "New Diaper"
+      assert index_live |> element("a", "Log new diaper...") |> render_click() =~ "New Diaper"
 
       assert_patch(index_live, Routes.diaper_index_path(conn, :new))
 
@@ -51,7 +51,8 @@ defmodule MilkWeb.DiaperLiveTest do
         |> follow_redirect(conn, Routes.diaper_index_path(conn, :index))
 
       assert html =~ "Diaper created successfully"
-      assert html =~ "💧💩📝"
+      assert html =~ "💧💩"
+      assert html =~ "some comment"
     end
   end
 end

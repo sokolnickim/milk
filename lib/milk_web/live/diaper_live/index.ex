@@ -6,7 +6,7 @@ defmodule MilkWeb.DiaperLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :diapers, list_diapers())}
+    {:ok, assign(socket, diapers: list_diapers(), opened_id: nil)}
   end
 
   @impl true
@@ -24,6 +24,13 @@ defmodule MilkWeb.DiaperLive.Index do
     socket
     |> assign(:page_title, "Listing Diapers")
     |> assign(:diaper, nil)
+  end
+
+  @impl true
+  def handle_event("open", %{"id" => id}, socket) do
+    diaper = Diapers.get_diaper!(id)
+    opened_id = if socket.assigns.opened_id != diaper.id, do: diaper.id
+    {:noreply, assign(socket, :opened_id, opened_id)}
   end
 
   defp list_diapers do
