@@ -34,6 +34,7 @@ defmodule MilkWeb.DiaperLive.Index do
   end
 
   defp list_diapers do
-    Diapers.list_diapers()
+    yesterday = NaiveDateTime.add(NaiveDateTime.local_now(), -24 * 3600)
+    Diapers.list_diapers_since(yesterday)
   end
 end

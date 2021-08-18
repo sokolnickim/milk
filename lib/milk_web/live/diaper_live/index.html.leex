@@ -14,6 +14,17 @@
 </div>
 
 <div class="accordion accordion-flush" id="diapers">
+  <div class="accordion-item fw-bolder">
+    <div class="accordion-body d-flex">
+      <span class="flex-fill">
+        Past 24 hours
+      </span>
+      <span>
+        <%= Enum.count(@diapers, &(&1.liquid)) %>💧
+        <%= Enum.count(@diapers, &(&1.solid)) %>💩
+      </span>
+    </div>
+  </div>
   <%= for diaper <- @diapers do %>
     <div class="accordion-item">
       <%= if diaper.comment do %>

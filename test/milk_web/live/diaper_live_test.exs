@@ -7,7 +7,7 @@ defmodule MilkWeb.DiaperLiveTest do
 
   @create_attrs %{
     comment: "some comment",
-    disposed_at: ~N[2010-04-17 14:00:00],
+    disposed_at: NaiveDateTime.local_now(),
     liquid: true,
     solid: true
   }
@@ -29,8 +29,22 @@ defmodule MilkWeb.DiaperLiveTest do
     test "lists all diapers", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.diaper_index_path(conn, :index))
 
-      assert html =~ "💧💩"
-      assert html =~ "some comment"
+      assert html =~ "Past 24 hours"
+      assert html =~ ~r{1💧\s*1💩}
+    end
+
+    test "count number of diapers", %{conn: conn} do
+      {:ok, live, html} = live(conn, Routes.diaper_index_path(conn, :index))
+      assert html =~ ~r{1💧\s*1💩}
+
+      Diapers.create_diaper(%{liquid: true, solid: false})
+      render(live) =~ ~r{2💧\s*1💩}
+
+      Diapers.create_diaper(%{liquid: true, solid: true})
+      render(live) =~ ~r{3💧\s*2💩}
+
+      Diapers.create_diaper(%{liquid: false, solid: true})
+      render(live) =~ ~r{3💧\s*3💩}
     end
 
     test "saves new diaper", %{conn: conn} do

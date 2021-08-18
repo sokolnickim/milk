@@ -21,6 +21,15 @@ defmodule Milk.Diapers do
     Repo.all(Diaper)
   end
 
+  def list_diapers_since(moment) do
+    query =
+      from d in Diaper,
+        order_by: [desc: d.disposed_at],
+        where: d.disposed_at >= ^moment
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single diaper.
 
