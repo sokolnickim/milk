@@ -1,0 +1,20 @@
+<%= f = form_for @changeset, "#",
+  id: "weight-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="mb-3">
+    <%= label f, :date, class: "form-label" %>
+    <%= date_input f, :date, class: "form-control" %>
+    <%= error_tag f, :date %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :grams, class: "form-label" %>
+    <%= number_input f, :grams, class: "form-control" %>
+    <%= error_tag f, :grams %>
+  </div>
+
+  <%= submit "Save", phx_disable_with: "Saving...", class: "btn btn-primary" %>
+</form>

@@ -26,6 +26,9 @@ defmodule MilkWeb.Router do
 
     live "/diapers", DiaperLive.Index, :index
     live "/diapers/new", DiaperLive.Index, :new
+
+    live "/weights", WeightLive.Index, :index
+    live "/weights/new", WeightLive.Index, :new
   end
 
   # Other scopes may use custom stacks.
