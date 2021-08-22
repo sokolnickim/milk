@@ -18,7 +18,9 @@ defmodule Milk.Metrics do
 
   """
   def list_weights do
-    Repo.all(Weight)
+    from(w in Weight, order_by: [desc: w.date])
+    |> Repo.all()
+    |> Enum.map(&Weight.populate_imperial/1)
   end
 
   @doc """
@@ -35,7 +37,7 @@ defmodule Milk.Metrics do
       ** (Ecto.NoResultsError)
 
   """
-  def get_weight!(id), do: Repo.get!(Weight, id)
+  def get_weight!(id), do: Repo.get!(Weight, id) |> Weight.populate_imperial()
 
   @doc """
   Creates a weight.

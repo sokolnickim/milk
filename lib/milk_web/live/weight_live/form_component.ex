@@ -2,6 +2,7 @@ defmodule MilkWeb.WeightLive.FormComponent do
   use MilkWeb, :live_component
 
   alias Milk.Metrics
+  import Milk.Metrics.Weight, only: [metric?: 1, imperial?: 1]
 
   @impl true
   def update(%{weight: weight} = assigns, socket) do

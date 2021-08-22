@@ -30,7 +30,7 @@ defmodule MilkWeb.WeightLiveTest do
     test "saves new weight", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, Routes.weight_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Weight") |> render_click() =~
+      assert index_live |> element("a", "Log new weight") |> render_click() =~
                "New Weight"
 
       assert_patch(index_live, Routes.weight_index_path(conn, :new))

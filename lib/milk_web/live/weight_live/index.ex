@@ -6,7 +6,7 @@ defmodule MilkWeb.WeightLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :weights, list_weights())}
+    {:ok, assign(socket, weights: list_weights(), units: :metric)}
   end
 
   @impl true
@@ -24,6 +24,15 @@ defmodule MilkWeb.WeightLive.Index do
     socket
     |> assign(:page_title, "Listing Weights")
     |> assign(:weight, nil)
+  end
+
+  @impl true
+  def handle_event("to_metric", %{}, socket) do
+    {:noreply, assign(socket, :units, :metric)}
+  end
+
+  def handle_event("to_imperial", %{}, socket) do
+    {:noreply, assign(socket, :units, :imperial)}
   end
 
   defp list_weights do

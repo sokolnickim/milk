@@ -7,21 +7,30 @@
     return_to: Routes.weight_index_path(@socket, :index) %>
 <% end %>
 
+<div class="row mx-0 mb-3">
+  <%= live_patch "Log new weight...", to: Routes.weight_index_path(@socket, :new),
+      class: "btn btn-primary" %>
+</div>
+
+<%= case @units do %>
+  <% :metric -> %>
+    <a href="#" class="float-end" phx-click="to_imperial">Imperial</a>
+  <% :imperial -> %>
+    <a href="#" class="float-end" phx-click="to_metric">Metric</a>
+<% end %>
+
 <table class="table">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Grams</th>
-    </tr>
-  </thead>
   <tbody id="weights">
     <%= for weight <- @weights do %>
       <tr id="weight-<%= weight.id %>">
         <td><%= weight.date %></td>
-        <td><%= weight.grams %></td>
+        <td>
+          <%= case @units do %>
+            <% :metric -> %><%= weight.grams / 1000 %>kg
+            <% :imperial -> %><%= weight.lb %>lb <%= weight.oz %>oz
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch "New Weight", to: Routes.weight_index_path(@socket, :new) %></span>
