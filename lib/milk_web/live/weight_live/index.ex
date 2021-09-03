@@ -15,9 +15,11 @@ defmodule MilkWeb.WeightLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
+    today = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+
     socket
     |> assign(:page_title, "New Weight")
-    |> assign(:weight, %Weight{})
+    |> assign(:weight, %Weight{date: today})
   end
 
   defp apply_action(socket, :index, _params) do

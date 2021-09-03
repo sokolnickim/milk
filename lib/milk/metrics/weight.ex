@@ -3,7 +3,7 @@ defmodule Milk.Metrics.Weight do
   import Ecto.Changeset
 
   schema "weights" do
-    field :date, :date, default: NaiveDateTime.to_date(NaiveDateTime.local_now())
+    field :date, :date
     field :grams, :integer
     field :unit, Ecto.Enum, values: [:metric, :imperial], default: :metric, virtual: true
     field :lb, :integer, virtual: true
