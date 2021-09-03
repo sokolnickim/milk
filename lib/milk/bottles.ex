@@ -10,11 +10,11 @@ defmodule Milk.Bottles do
 
   def is_empty(%Bottle{filled_at: time}), do: is_nil(time)
 
-  def is_expired(%Bottle{filled_at: time}), do: time < milk_time_limit()
-
-  defp milk_time_limit() do
-    NaiveDateTime.local_now()
-    |> NaiveDateTime.add(-3 * 24 * 3600)
+  def is_expired(%Bottle{filled_at: time}) do
+    # Bottle expires three days from its filling
+    expiry_date = NaiveDateTime.add(time, 3 * 24 * 3600)
+    # It is expired if we are now past the expiry date
+    NaiveDateTime.compare(NaiveDateTime.local_now(), expiry_date) == :gt
   end
 
   @doc """
