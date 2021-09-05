@@ -21,13 +21,15 @@ defmodule MilkWeb.FeedLiveTest do
     end
 
     test "count number of feeds", %{conn: conn} do
-      {:ok, index_live, html} = live(conn, Routes.feed_index_path(conn, :index))
+      {:ok, _, html} = live(conn, Routes.feed_index_path(conn, :index))
       assert html =~ "Past 24 hours - no feeds"
 
-      html = index_live |> element("button", "Log new feed") |> render_click()
+      Milk.Feeds.create_feed(%{started_at: NaiveDateTime.local_now()})
+      {:ok, _, html} = live(conn, Routes.feed_index_path(conn, :index))
       assert html =~ "Past 24 hours - 1 feed<"
 
-      html = index_live |> element("button", "Log new feed") |> render_click()
+      Milk.Feeds.create_feed(%{started_at: NaiveDateTime.local_now()})
+      {:ok, _, html} = live(conn, Routes.feed_index_path(conn, :index))
       assert html =~ "Past 24 hours - 2 feeds"
     end
 
@@ -37,8 +39,22 @@ defmodule MilkWeb.FeedLiveTest do
       assert html =~ "Past 24 hours"
 
       assert index_live
-             |> element("button", "Log new feed")
-             |> render_click() =~ "Today at"
+             |> element("a", "Log new feed...")
+             |> render_click() =~ "New Feed"
+
+      assert_patch(index_live, Routes.feed_index_path(conn, :new))
+
+      assert index_live
+             |> form("#feed-form", feed: %{started_at: nil})
+             |> render_change() =~ "can&#39;t be blank"
+
+      {:ok, _, html} =
+        index_live
+        |> form("#feed-form", feed: %{started_at: NaiveDateTime.local_now()})
+        |> render_submit()
+        |> follow_redirect(conn, Routes.feed_index_path(conn, :index))
+
+      assert html =~ "Today at"
     end
   end
 end

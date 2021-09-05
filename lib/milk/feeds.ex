@@ -70,10 +70,12 @@ defmodule Milk.Feeds do
 
   """
   def create_feed(attrs \\ %{}) do
-    attrs = Map.merge(%{started_at: NaiveDateTime.local_now()}, attrs)
-
     %Feed{}
     |> Feed.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def change_feed(%Feed{} = feed, attrs \\ %{}) do
+    Feed.changeset(feed, attrs)
   end
 end

@@ -1,0 +1,14 @@
+<%= f = form_for @changeset, "#",
+  id: "feed-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="mb-3">
+    <%= label f, :started_at, class: "form-label" %>
+    <%= datetime_local_input f, :started_at, class: "form-control" %>
+    <%= error_tag f, :started_at %>
+  </div>
+
+  <%= submit "Save", class: "btn btn-primary", phx_disable_with: "Saving..." %>
+</form>

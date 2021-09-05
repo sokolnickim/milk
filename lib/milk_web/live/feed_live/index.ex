@@ -2,6 +2,7 @@ defmodule MilkWeb.FeedLive.Index do
   use MilkWeb, :live_view
 
   alias Milk.Feeds
+  alias Milk.Feeds.Feed
 
   @impl true
   def mount(_params, _session, socket) do
@@ -9,9 +10,20 @@ defmodule MilkWeb.FeedLive.Index do
   end
 
   @impl true
-  def handle_event("new", %{}, socket) do
-    {:ok, _} = Feeds.create_feed()
-    {:noreply, assign_feeds(socket)}
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "New Feed")
+    |> assign(:feed, %Feed{started_at: NaiveDateTime.local_now()})
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:page_title, "Listing Feeds")
+    |> assign(:feed, nil)
   end
 
   def print_feeds(feeds) do
