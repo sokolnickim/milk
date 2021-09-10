@@ -4,10 +4,20 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
-  <div class="mb-3">
-    <%= label f, :started_at, class: "form-label" %>
+  <div class="input-group mb-3">
+    <span class="input-group-text">At</span>
     <%= datetime_local_input f, :started_at, class: "form-control" %>
     <%= error_tag f, :started_at %>
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-text">
+      <%= checkbox f, :is_bottle, class: "form-check-input mt-0" %>
+      <span class="ps-2">Bottle</span>
+    </div>
+    <%= number_input f, :milliliters, min: 0, disabled: not bottle?(@changeset),
+        class: "form-control #{if f.errors[:milliliters], do: "is-invalid"}" %>
+    <span class="input-group-text">ml</span>
   </div>
 
   <%= submit "Save", class: "btn btn-primary", phx_disable_with: "Saving..." %>

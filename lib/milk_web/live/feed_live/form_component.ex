@@ -1,6 +1,7 @@
 defmodule MilkWeb.FeedLive.FormComponent do
   use MilkWeb, :live_component
 
+  import Milk.Feeds.Feed, only: [bottle?: 1]
   alias Milk.Feeds
 
   @impl true

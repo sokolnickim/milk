@@ -23,7 +23,12 @@
   <tbody id="feeds">
     <%= for {feed, index} <- Enum.with_index(@feeds) do %>
       <tr class="<%= if index == 0, do: "table-dark" %>">
-        <td><%= feed.started_at |> relative_datetime() %></td>
+        <td>
+          <%= feed.started_at |> relative_datetime() %>
+          <%= if feed.is_bottle do %>
+            <span class="float-end mx-2"><%= feed.milliliters %>ml 🍼</span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
