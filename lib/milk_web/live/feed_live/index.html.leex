@@ -25,9 +25,14 @@
       <tr class="<%= if index == 0, do: "table-dark" %>">
         <td>
           <%= feed.started_at |> relative_datetime() %>
+          <span class="float-end mx-2">
           <%= if feed.is_bottle do %>
-            <span class="float-end mx-2"><%= feed.milliliters %>ml 🍼</span>
+            <%= feed.milliliters %>ml
+            <%= if feed.is_formula, do: "🧪", else: "👩🏻" %>🍼
+          <% else %>
+            🤱🏻
           <% end %>
+          </span>
         </td>
       </tr>
     <% end %>

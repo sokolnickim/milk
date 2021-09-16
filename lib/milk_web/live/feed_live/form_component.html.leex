@@ -10,11 +10,24 @@
     <%= error_tag f, :started_at %>
   </div>
 
+  <div class="form-check form-switch">
+    <%= checkbox f, :is_bottle, class: "form-check-input" %>
+    <%= label f, :is_bottle, "Bottle", class: "form-check-label" %>
+  </div>
+
+  <div class="form-check form-check-inline">
+    <%= radio_button f, :is_formula, false, disabled: not bottle?(@changeset),
+        class: "form-check-input" %>
+    <%= label f, :is_formula, "Breast Milk", class: "form-check-label" %>
+  </div>
+
+  <div class="form-check form-check-inline">
+    <%= radio_button f, :is_formula, true, disabled: not bottle?(@changeset),
+        class: "form-check-input" %>
+    <%= label f, :is_formula, "Formula", class: "form-check-label" %>
+  </div>
+
   <div class="input-group mb-3">
-    <div class="input-group-text">
-      <%= checkbox f, :is_bottle, class: "form-check-input mt-0" %>
-      <span class="ps-2">Bottle</span>
-    </div>
     <%= number_input f, :milliliters, min: 0, disabled: not bottle?(@changeset),
         class: "form-control #{if f.errors[:milliliters], do: "is-invalid"}" %>
     <span class="input-group-text">ml</span>
