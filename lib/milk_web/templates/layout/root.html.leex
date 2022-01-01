@@ -29,6 +29,10 @@
             <a class="nav-link <%= if hd(@conn.path_info) == "weights", do: "active" %>"
               href="<%= Routes.weight_index_path(@conn, :index) %>">Weights</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link <%= if hd(@conn.path_info) == "sleep", do: "active" %>"
+              href="<%= Routes.sleep_index_path(@conn, :index) %>">Sleep</a>
+          </li>
         <ul>
       </nav>
     </header>

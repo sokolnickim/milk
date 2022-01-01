@@ -1,0 +1,16 @@
+<div class="row m-0">
+  <h1 class="display-1 text-center font-monospace card">
+    <%= print_duration(@elapsed) %>
+  </h1>
+</div>
+<div class="row m-0">
+<%= if @running? do %>
+  <button class="btn btn-primary" phx-click="stop">
+    Stop timer
+  </button>
+<% else %>
+  <button class="btn btn-primary" phx-click="start">
+    Start timer
+  </button>
+<% end %>
+</div>
