@@ -14,6 +14,14 @@ defmodule MilkWeb.FeedLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    feed = Feeds.get_feed!(id)
+    {:ok, _} = Feeds.delete_feed(feed)
+
+    {:noreply, assign_feeds(socket)}
+  end
+
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Feed")
@@ -24,6 +32,11 @@ defmodule MilkWeb.FeedLive.Index do
     socket
     |> assign(:page_title, "Listing Feeds")
     |> assign(:feed, nil)
+  end
+
+  defp apply_action(socket, :edit, _params) do
+    socket
+    |> assign(:page_title, "Editing Feeds")
   end
 
   def print_feeds(feeds) do

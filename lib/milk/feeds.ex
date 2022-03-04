@@ -57,6 +57,10 @@ defmodule Milk.Feeds do
     Repo.one(query)
   end
 
+  def get_feed!(id) do
+    Repo.get!(Feed, id)
+  end
+
   @doc """
   Creates a feed.
 
@@ -73,6 +77,10 @@ defmodule Milk.Feeds do
     %Feed{}
     |> Feed.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def delete_feed(feed) do
+    Repo.delete(feed)
   end
 
   def change_feed(%Feed{} = feed, attrs \\ %{}) do

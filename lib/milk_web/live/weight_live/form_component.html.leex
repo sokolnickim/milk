@@ -16,7 +16,7 @@
     </div>
     <%= number_input f, :grams, min: 0, disabled: not metric?(@changeset),
         class: "form-control #{if metric?(@changeset) and f.errors[:grams], do: "is-invalid"}" %>
-    <span class="input-group-text">grams</span>
+    <span class="input-group-text">kg</span>
   </div>
   <%= if metric?(@changeset) do %>
     <%= error_tag f, :grams %>
@@ -29,7 +29,7 @@
     <%= number_input f, :lb, min: 0, disabled: not imperial?(@changeset),
         class: "form-control #{if imperial?(@changeset) and f.errors[:lb], do: "is-invalid"}" %>
     <span class="input-group-text">lb</span>
-    <%= number_input f, :oz, min: 0, disabled: not imperial?(@changeset),
+    <%= number_input f, :oz, min: 0, disabled: not imperial?(@changeset), step: 0.1,
         class: "form-control #{if imperial?(@changeset) and f.errors[:oz], do: "is-invalid"}" %>
     <span class="input-group-text">oz</span>
   </div>
