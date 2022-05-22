@@ -64,6 +64,10 @@ defmodule Milk.Diapers do
     |> Repo.insert()
   end
 
+  def delete_diaper(%Diaper{} = diaper) do
+    Repo.delete(diaper)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking diaper changes.
 

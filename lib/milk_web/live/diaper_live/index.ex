@@ -26,11 +26,23 @@ defmodule MilkWeb.DiaperLive.Index do
     |> assign(:diaper, nil)
   end
 
+  defp apply_action(socket, :edit, _params) do
+    socket
+    |> assign(:page_title, "Editing Diapers")
+  end
+
   @impl true
   def handle_event("open", %{"id" => id}, socket) do
     diaper = Diapers.get_diaper!(id)
     opened_id = if socket.assigns.opened_id != diaper.id, do: diaper.id
     {:noreply, assign(socket, :opened_id, opened_id)}
+  end
+
+  def handle_event("delete", %{"id" => id}, socket) do
+    diaper = Diapers.get_diaper!(id)
+    {:ok, _} = Diapers.delete_diaper(diaper)
+
+    {:noreply, assign(socket, diapers: list_diapers())}
   end
 
   defp list_diapers do

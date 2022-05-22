@@ -28,6 +28,7 @@ defmodule MilkWeb.Router do
 
     live "/diapers", DiaperLive.Index, :index
     live "/diapers/new", DiaperLive.Index, :new
+    live "/diapers/edit", DiaperLive.Index, :edit
 
     live "/weights", WeightLive.Index, :index
     live "/weights/new", WeightLive.Index, :new

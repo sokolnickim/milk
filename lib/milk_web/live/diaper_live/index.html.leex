@@ -1,4 +1,4 @@
-<%= if @live_action in [:new, :edit] do %>
+<%= if @live_action == :new do %>
   <%= live_modal MilkWeb.DiaperLive.FormComponent,
     id: @diaper.id || :new,
     title: @page_title,
@@ -13,7 +13,13 @@
       class: "btn btn-primary" %>
 </div>
 
-<div class="accordion accordion-flush" id="diapers">
+<%= if @live_action == :edit do %>
+  <%= live_patch "Close", class: "float-end", to: Routes.diaper_index_path(@socket, :index) %>
+<% else %>
+  <%= live_patch "Edit", class: "float-end", to: Routes.diaper_index_path(@socket, :edit) %>
+<% end %>
+
+<div class="mt-3 accordion accordion-flush" id="diapers">
   <div class="accordion-item fw-bolder">
     <div class="accordion-body d-flex">
       <span class="flex-fill">
@@ -40,6 +46,9 @@
             <span>
               <%= if diaper.liquid, do: "💧" %>
               <%= if diaper.solid, do: "💩" %>
+              <%= if @live_action == :edit do %>
+                <a href="#" phx-click="delete" phx-value-id="<%= diaper.id %>">Delete</a>
+              <% end %>
             </span>
           </button>
         </h2>
@@ -57,6 +66,9 @@
           <span>
             <%= if diaper.liquid, do: "💧" %>
             <%= if diaper.solid, do: "💩" %>
+            <%= if @live_action == :edit do %>
+              <a href="#" phx-click="delete" phx-value-id="<%= diaper.id %>">Delete</a>
+            <% end %>
           </span>
         </div>
       <% end %>
