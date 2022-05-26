@@ -1,16 +1,16 @@
 <div class="row m-0">
   <h1 class="display-1 text-center font-monospace card">
-    <%= print_duration(@elapsed) %>
+    <%= print_duration(@stopwatch.elapsed) %>
   </h1>
 </div>
 <div class="row m-0">
-<%= if @running? do %>
-  <button class="btn btn-primary" phx-click="stop">
-    Stop timer
-  </button>
-<% else %>
-  <button class="btn btn-primary" phx-click="start">
-    Start timer
-  </button>
-<% end %>
+  <div class="btn-group" role="group">
+    <%= case @stopwatch.state do %>
+      <% :clear -> %>
+        <button class="btn btn-primary" phx-click="start">Start timer</button>
+      <% :running -> %>
+        <button class="btn btn-primary" phx-click="stop">Stop timer</button>
+      <% :stopped -> %>
+        <button class="btn btn-danger" phx-click="reset">Reset timer</button>
+    <% end %>
 </div>

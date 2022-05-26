@@ -21,14 +21,18 @@ defmodule MilkWeb.SleepLive.Index do
     {:noreply, read_stopwatch(socket)}
   end
 
+  def handle_event("reset", _, socket) do
+    Milk.Stopwatch.reset()
+    {:noreply, read_stopwatch(socket)}
+  end
+
   @impl true
-  def handle_info({Milk.Stopwatch, elapsed}, socket) do
-    {:noreply, assign(socket, :elapsed, elapsed)}
+  def handle_info(%Milk.Stopwatch{} = stopwatch, socket) do
+    {:noreply, assign(socket, :stopwatch, stopwatch)}
   end
 
   defp read_stopwatch(socket) do
-    readings = Milk.Stopwatch.read()
-    assign(socket, running?: readings.running?, elapsed: readings.elapsed)
+    assign(socket, :stopwatch, Milk.Stopwatch.read())
   end
 
   def print_duration(total_seconds) do
