@@ -18,8 +18,8 @@ defmodule Milk.SleepTest do
     end
 
     test "list_day_sessions/0 returns all sessions" do
-      [_sleep1, sleep2, sleep3] = sleep_fixtures()
-      assert Sleep.list_day_sessions(~D[2022-05-17]) == [sleep3, sleep2]
+      [sleep1, sleep2, sleep3] = sleep_fixtures()
+      assert Sleep.list_day_sessions(~D[2022-05-17]) == [sleep3, sleep2, sleep1]
     end
 
     test "create_session/1 with valid data creates a session" do

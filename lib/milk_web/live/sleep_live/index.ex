@@ -42,11 +42,41 @@ defmodule MilkWeb.SleepLive.Index do
     socket
     |> assign(:page_title, "New Sleep Session")
     |> assign(:session, %Sleep.Session{})
+    |> assign_sessions(NaiveDateTime.local_now())
   end
 
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Sleep")
     |> assign(:session, nil)
+    |> assign_sessions(NaiveDateTime.local_now())
+  end
+
+  def print_naps(sessions) do
+    naps =
+      sessions
+      |> Enum.filter(&is_nap/1)
+      |> Enum.map(&NaiveDateTime.diff(&1.ended_at, &1.started_at))
+
+    total_time = print_duration(Enum.sum(naps))
+
+    case Enum.count(naps) do
+      0 -> "no naps"
+      1 -> "1 nap (#{total_time})"
+      n -> "#{n} naps (#{total_time})"
+    end
+  end
+
+  defp is_nap(%Sleep.Session{} = session) do
+    started_time = NaiveDateTime.to_time(session.started_at)
+    ended_time = NaiveDateTime.to_time(session.ended_at)
+
+    Time.compare(started_time, ~T[18:00:00]) == :lt and
+      Time.compare(ended_time, ~T[08:00:00]) == :gt
+  end
+
+  defp assign_sessions(socket, day) do
+    sessions = Sleep.list_day_sessions(day)
+    assign(socket, day: day, sessions: sessions)
   end
 end

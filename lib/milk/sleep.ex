@@ -15,7 +15,7 @@ defmodule Milk.Sleep do
     {:ok, to} = NaiveDateTime.new(Date.add(day, 1), ~T[00:00:00])
 
     Session
-    |> where([s], s.started_at >= ^from and s.ended_at < ^to)
+    |> where([s], s.ended_at >= ^from and s.ended_at < ^to)
     |> order_by(desc: :started_at)
     |> Repo.all()
   end

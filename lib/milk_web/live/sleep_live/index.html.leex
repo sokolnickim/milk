@@ -10,7 +10,7 @@
 
 <div class="row m-0">
   <h1 class="display-1 text-center font-monospace card">
-    <%= print_duration(@stopwatch.elapsed) %>
+    <%= print_clock_duration(@stopwatch.elapsed) %>
   </h1>
 </div>
 <div class="row m-0">
@@ -29,4 +29,30 @@
         <%= live_patch "Edit...", to: Routes.sleep_index_path(@socket, :new),
             class: "btn btn-secondary" %>
     <% end %>
+  </div>
 </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Past 24 hours - <%= print_naps(@sessions) %></th>
+      <th></th>
+      <%= if @live_action == :edit do %><th></th><% end %>
+    </tr>
+  </thead>
+  <tbody id="sessions">
+    <%= for session <- @sessions do %>
+      <tr>
+        <td>
+          <%= print_session(session.started_at, session.ended_at) %>
+        </td>
+        <td>
+          <%= print_duration(session.started_at, session.ended_at) %>
+        </td>
+        <%= if @live_action == :edit do %>
+          <td><a href="#" phx-click="delete" phx-value-id="<%= session.id %>">Delete</a></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
