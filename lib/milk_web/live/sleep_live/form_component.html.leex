@@ -1,0 +1,28 @@
+<%= f = form_for @changeset, "#",
+  id: "sleep-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="mb-3">
+    <%= label f, :started_at, class: "form-label" %>
+    <%= datetime_local_input f, :started_at, class: "form-control" %>
+    <%= error_tag f, :started_at %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :ended_at, class: "form-label" %>
+    <%= datetime_local_input f, :ended_at, class: "form-control" %>
+    <%= error_tag f, :ended_at %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :note, class: "form-label" %>
+    <%= textarea f, :note, class: "form-control" %>
+    <%= error_tag f, :note %>
+  </div>
+
+  <div class="row m-0">
+    <%= submit "Save", class: "btn btn-primary", phx_disable_with: "Saving..." %>
+  </div>
+</form>

@@ -1,3 +1,13 @@
+<%= if @live_action == :new do %>
+  <%= live_modal MilkWeb.SleepLive.FormComponent,
+      id: @session.id || :new,
+      title: @page_title,
+      action: @live_action,
+      session: @session,
+      stopwatch: @stopwatch,
+      return_to: Routes.sleep_index_path(@socket, :index) %>
+<% end %>
+
 <div class="row m-0">
   <h1 class="display-1 text-center font-monospace card">
     <%= print_duration(@stopwatch.elapsed) %>

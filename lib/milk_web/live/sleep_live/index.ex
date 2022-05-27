@@ -1,13 +1,20 @@
 defmodule MilkWeb.SleepLive.Index do
   use MilkWeb, :live_view
 
+  alias Milk.Sleep
+
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Milk.Stopwatch.subscribe()
     end
 
-    {:ok, read_stopwatch(socket)}
+    {:ok, socket}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   @impl true
@@ -29,6 +36,20 @@ defmodule MilkWeb.SleepLive.Index do
   @impl true
   def handle_info(%Milk.Stopwatch{} = stopwatch, socket) do
     {:noreply, assign(socket, :stopwatch, stopwatch)}
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "New Sleep Session")
+    |> assign(:session, %Sleep.Session{})
+    |> read_stopwatch()
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:page_title, "Listing Sleep")
+    |> assign(:session, nil)
+    |> read_stopwatch()
   end
 
   defp read_stopwatch(socket) do
