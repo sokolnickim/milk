@@ -31,4 +31,25 @@ defmodule MilkWeb.ViewHelpers do
 
     [printed_hours, printed_minutes, am_or_pm]
   end
+
+  def print_duration(total_seconds) when total_seconds < 0, do: "--:--:--"
+
+  def print_duration(total_seconds) do
+    {hours, minutes, seconds} = duration_tuple(total_seconds)
+    [print_00(hours), ":", print_00(minutes), ":", print_00(seconds)]
+  end
+
+  defp duration_tuple(total_seconds) do
+    seconds = Integer.mod(total_seconds, 60)
+    minutes = Integer.mod(div(total_seconds, 60), 60)
+    hours = div(total_seconds, 3600)
+
+    {hours, minutes, seconds}
+  end
+
+  defp print_00(total) do
+    total
+    |> Integer.to_string()
+    |> String.pad_leading(2, "0")
+  end
 end

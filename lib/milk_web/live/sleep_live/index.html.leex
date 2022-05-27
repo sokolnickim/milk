@@ -18,9 +18,15 @@
     <%= case @stopwatch.state do %>
       <% :clear -> %>
         <button class="btn btn-primary" phx-click="start">Start timer</button>
+        <%= live_patch "New...", to: Routes.sleep_index_path(@socket, :new),
+            class: "btn btn-secondary" %>
       <% :running -> %>
         <button class="btn btn-primary" phx-click="stop">Stop timer</button>
+        <%= live_patch "Edit...", to: Routes.sleep_index_path(@socket, :new),
+            class: "btn btn-secondary" %>
       <% :stopped -> %>
         <button class="btn btn-danger" phx-click="reset">Reset timer</button>
+        <%= live_patch "Edit...", to: Routes.sleep_index_path(@socket, :new),
+            class: "btn btn-secondary" %>
     <% end %>
 </div>

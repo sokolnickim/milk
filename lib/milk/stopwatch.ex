@@ -1,6 +1,8 @@
 defmodule Milk.Stopwatch do
   use GenServer
 
+  @topic "ticks"
+
   defstruct [:state, :started_at, :stopped_at, :elapsed, :next_tick]
 
   def start_link([]) do
@@ -14,9 +16,7 @@ defmodule Milk.Stopwatch do
 
   def set_start(start), do: GenServer.call(__MODULE__, {:set_start, start})
 
-  def subscribe() do
-    Phoenix.PubSub.subscribe(Milk.PubSub, "ticks")
-  end
+  def subscribe(), do: Phoenix.PubSub.subscribe(Milk.PubSub, @topic)
 
   @impl true
   def init([]) do
@@ -25,12 +25,12 @@ defmodule Milk.Stopwatch do
 
   @impl true
   def handle_call(:read, _from, stopwatch) do
-    {:reply, reading(stopwatch), stopwatch}
+    {:reply, readings(stopwatch), stopwatch}
   end
 
   def handle_call({:set_start, start}, _from, stopwatch) do
     stopwatch = %__MODULE__{stopwatch | started_at: start}
-    broadcast_tick(stopwatch)
+    broadcast_readings(stopwatch)
     {:reply, :ok, stopwatch}
   end
 
@@ -53,7 +53,7 @@ defmodule Milk.Stopwatch do
         next_tick: nil
     }
 
-    {:reply, :ok, stopwatch}
+    {:reply, :ok, broadcast_readings(stopwatch)}
   end
 
   def handle_call(:reset, _from, stopwatch) do
@@ -61,25 +61,23 @@ defmodule Milk.Stopwatch do
       Process.cancel_timer(stopwatch.next_tick)
     end
 
-    {:reply, :ok, %__MODULE__{}}
+    {:reply, :ok, broadcast_readings(%__MODULE__{})}
   end
 
   @impl true
-  def handle_info(:tick, stopwatch) do
-    broadcast_tick(stopwatch)
-    {:noreply, tick(stopwatch)}
-  end
-
-  defp broadcast_tick(stopwatch) do
-    Phoenix.PubSub.broadcast(Milk.PubSub, "ticks", reading(stopwatch))
-  end
+  def handle_info(:tick, stopwatch), do: {:noreply, tick(stopwatch)}
 
   defp tick(%__MODULE__{} = stopwatch) do
     next_tick = Process.send_after(self(), :tick, 1_000)
-    %__MODULE__{stopwatch | next_tick: next_tick}
+    broadcast_readings(%__MODULE__{stopwatch | next_tick: next_tick})
   end
 
-  defp reading(stopwatch) do
+  defp broadcast_readings(stopwatch) do
+    Phoenix.PubSub.broadcast(Milk.PubSub, @topic, readings(stopwatch))
+    stopwatch
+  end
+
+  defp readings(stopwatch) do
     %{stopwatch | next_tick: nil, state: state(stopwatch), elapsed: elapsed(stopwatch)}
   end
 

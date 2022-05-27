@@ -8,9 +8,16 @@ defmodule MilkWeb.SleepLive.FormComponent do
     attrs = changes_from_stopwatch(stopwatch)
     changeset = Sleep.change_session(session, attrs)
 
+    changeset =
+      case stopwatch.state do
+        :stopped -> Map.put(changeset, :action, :timer)
+        _ -> changeset
+      end
+
     socket =
       socket
       |> assign(:return_to, assigns.return_to)
+      |> assign(:state, stopwatch.state)
       |> assign(:duration, stopwatch.elapsed)
       |> assign(:changeset, changeset)
 
@@ -24,7 +31,15 @@ defmodule MilkWeb.SleepLive.FormComponent do
       |> Sleep.change_session(session_attrs)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, :changeset, changeset)}
+    started_at = Ecto.Changeset.get_change(changeset, :started_at)
+    ended_at = Ecto.Changeset.get_change(changeset, :ended_at)
+    duration = NaiveDateTime.diff(ended_at, started_at)
+
+    if socket.assigns.state == :running do
+      Milk.Stopwatch.set_start(started_at)
+    end
+
+    {:noreply, assign(socket, changeset: changeset, duration: duration)}
   end
 
   def handle_event("save", %{"session" => session_attrs}, socket) do
