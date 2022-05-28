@@ -1,0 +1,48 @@
+<%= f = form_for @changeset, "#",
+  id: "sleep-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <div class="mb-3">
+    <label class="form-label">Duration</label>
+    <h1 class="display-1 text-center font-monospace card">
+      <%= print_clock_duration(@duration) %>
+    </h1>
+    <%= error_tag f, :duration %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :started_at, class: "form-label" %>
+    <%= datetime_local_input f, :started_at, class: "form-control" %>
+    <%= error_tag f, :started_at %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :ended_at, class: "form-label" %>
+    <%= datetime_local_input f, :ended_at, class: "form-control", readonly: @state == :running %>
+    <%= error_tag f, :ended_at %>
+  </div>
+
+  <div class="mb-3">
+    <%= label f, :note, class: "form-label" %>
+    <%= textarea f, :note, class: "form-control", readonly: @state == :running %>
+    <%= error_tag f, :note %>
+  </div>
+
+  <div class="row m-0">
+    <%= if @state == :running do %>
+      <button class="btn btn-secondary" type="button" phx-click="stop">
+        Stop timer
+      </button>
+    <% else %>
+      <%= if @state == :stopped do %>
+        <button class="mb-1 btn btn-secondary" type="button" phx-click="start">
+          Resume timer
+        </button>
+      <% end %>
+      <%= submit "Save", class: "btn btn-primary", phx_disable_with: "Saving...",
+          disabled: not @changeset.valid? %>
+    <% end %>
+  </div>
+</form>

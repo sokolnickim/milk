@@ -30,6 +30,9 @@ defmodule MilkWeb.Router do
 
     live "/weights", WeightLive.Index, :index
     live "/weights/new", WeightLive.Index, :new
+
+    live "/sleep", SleepLive.Index, :index
+    live "/sleep/new", SleepLive.Index, :new
   end
 
   # Other scopes may use custom stacks.

@@ -14,20 +14,24 @@
       <nav class="py-3 fs-6 fw-bolder" role="navigation">
         <ul class="nav nav-tabs justify-content-center">
           <li class="nav-item">
-            <a class="nav-link <%= if hd(@conn.path_info) == "feeds", do: "active" %>"
+            <a class="nav-link px-2 <%= if hd(@conn.path_info) == "feeds", do: "active" %>"
               href="<%= Routes.feed_index_path(@conn, :index) %>">Feeds</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <%= if hd(@conn.path_info) == "bottles", do: "active" %>"
+            <a class="nav-link px-2 <%= if hd(@conn.path_info) == "bottles", do: "active" %>"
               href="<%= Routes.bottle_index_path(@conn, :index) %>">Bottles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <%= if hd(@conn.path_info) == "diapers", do: "active" %>"
+            <a class="nav-link px-2 <%= if hd(@conn.path_info) == "diapers", do: "active" %>"
               href="<%= Routes.diaper_index_path(@conn, :index) %>">Diapers</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <%= if hd(@conn.path_info) == "weights", do: "active" %>"
+            <a class="nav-link px-2 <%= if hd(@conn.path_info) == "weights", do: "active" %>"
               href="<%= Routes.weight_index_path(@conn, :index) %>">Weights</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-2 <%= if hd(@conn.path_info) == "sleep", do: "active" %>"
+              href="<%= Routes.sleep_index_path(@conn, :index) %>">Sleep</a>
           </li>
         <ul>
       </nav>
