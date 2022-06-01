@@ -6,9 +6,9 @@ defmodule Milk.SleepTest do
   describe "sleep" do
     def sleep_fixtures() do
       attrs = [
-        %{started_at: ~N[2022-05-16 18:30:00], ended_at: ~N[2022-05-17 06:00:00]},
-        %{started_at: ~N[2022-05-17 09:00:00], ended_at: ~N[2022-05-17 10:30:00]},
-        %{started_at: ~N[2022-05-17 13:00:00], ended_at: ~N[2022-05-17 15:00:00]}
+        %{started_at: ~N[2022-04-30 18:30:00], ended_at: ~N[2022-05-01 06:00:00]},
+        %{started_at: ~N[2022-05-01 09:00:00], ended_at: ~N[2022-05-01 10:30:00]},
+        %{started_at: ~N[2022-05-01 13:00:00], ended_at: ~N[2022-05-01 15:00:00]}
       ]
 
       for attr <- attrs do
@@ -19,14 +19,14 @@ defmodule Milk.SleepTest do
 
     test "list_day_sessions/0 returns all sessions" do
       [sleep1, sleep2, sleep3] = sleep_fixtures()
-      assert Sleep.list_day_sessions(~D[2022-05-17]) == [sleep3, sleep2, sleep1]
+      assert Sleep.list_day_sessions(~D[2022-05-01]) == [sleep3, sleep2, sleep1]
     end
 
     test "create_session/1 with valid data creates a session" do
       assert {:ok, sleep} =
                Sleep.create_session(%{
-                 started_at: ~N[2022-05-17 18:30:00],
-                 ended_at: ~N[2022-05-18 06:00:00]
+                 started_at: ~N[2022-05-01 18:30:00],
+                 ended_at: ~N[2022-05-02 06:00:00]
                })
     end
 
@@ -42,19 +42,19 @@ defmodule Milk.SleepTest do
       assert "must be in the past" in errors.ended_at
 
       # Start and end inverted
-      errors = refute_session(~N[2022-05-17 09:00:00], ~N[2022-05-17 08:00:00])
+      errors = refute_session(~N[2022-05-01 09:00:00], ~N[2022-05-01 08:00:00])
       assert "end must be after start" in errors.duration
 
       # Sleep time too short
-      errors = refute_session(~N[2022-05-17 09:00:00], ~N[2022-05-17 09:02:00])
+      errors = refute_session(~N[2022-05-01 09:00:00], ~N[2022-05-01 09:02:00])
       assert "must be at least 5 minutes" in errors.duration
 
       # Started before existing sleep ended
-      errors = refute_session(~N[2022-05-17 10:00:00], ~N[2022-05-17 11:00:00])
+      errors = refute_session(~N[2022-05-01 10:00:00], ~N[2022-05-01 11:00:00])
       assert "overlaps with existing session" in errors.started_at
 
       # Ended after existing sleep started
-      errors = refute_session(~N[2022-05-17 12:00:00], ~N[2022-05-17 14:00:00])
+      errors = refute_session(~N[2022-05-01 12:00:00], ~N[2022-05-01 14:00:00])
       assert "overlaps with existing session" in errors.ended_at
     end
 

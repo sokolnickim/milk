@@ -21,9 +21,10 @@ defmodule Milk.Sleep.Session do
   end
 
   def is_in_the_past(field, time) do
-    if time > NaiveDateTime.local_now(),
-      do: [{field, "must be in the past"}],
-      else: []
+    case NaiveDateTime.compare(time, NaiveDateTime.local_now()) do
+      :gt -> [{field, "must be in the past"}]
+      _ -> []
+    end
   end
 
   def validate_duration(changeset) do
